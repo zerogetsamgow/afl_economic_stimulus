@@ -1,5 +1,6 @@
-
-
+library(magrittr)
+library(dplyr)
+library(ggplot2)
 
 ## Get grand final data and gdp growth data
 ## source('~/afl_economic_stimulus/get_grand_finals.R') 
@@ -24,7 +25,9 @@ premier_gdp_df <- grand_finals_df %>%
 	                ## mutate rather than summarise so we can use original variable in plots
 	                dplyr::mutate(mean_gdp_cvm_sa_growth=mean(gdp_cvm_sa_growth),
 	                    					max_gdp_cvm_sa_growth=max(gdp_cvm_sa_growth),
-	                    					min_gdp_cvm_sa_growth=min(gdp_cvm_sa_growth)) %>%
+	                    					min_gdp_cvm_sa_growth=min(gdp_cvm_sa_growth),
+	                							premierships=n(),
+	                							premiership_years=list(season)) %>%
 	                ungroup()
 	                    
 ## Coerce means for teams without premierships to minus five to put at bottom of order and out of chart limits
@@ -57,6 +60,8 @@ gdp_by_team_point <- premier_gdp_df %>%
 	                   ggplot(aes(y=premier, x=gdp_cvm_sa_growth)) +
 	                   geom_point(aes(colour="A", fill="A"), size=4)  +
 	                   geom_point(aes(x=mean_gdp_cvm_sa_growth, colour="B", fill="B"), size=4) +
+										 ## include next row for crude labels.
+										 ## geom_text(size=2.5, position="dodge",check_overlap=TRUE, angle=90, colour="black", hjust=1.8, aes(label=substr(season,3,4)))+
 	                   scale_colour_manual(values=c("A"=corp_blue_lt, "B"=corp_green_lt), labels=c("Individual premiership years","Mean growth")) +
 	                   scale_fill_manual(values=c("A"=corp_blue_lt, "B"=corp_green_lt), guide=FALSE) + 
 	                   scale_y_discrete(drop=FALSE)+
