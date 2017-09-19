@@ -17,6 +17,9 @@ get_grand_final <- function(season) {
 	node_type <- "center table"
 	grand_final_table_no <-  afltables %>% html_nodes(node_type)  %>% length()
 	
+	if(season==1924) {grand_final_table_no <- grand_final_table_no -1}
+	
+	
 	grand_final_table <- afltables %>%
 								       html_nodes(node_type)  %>%
 								       .[[grand_final_table_no]] %>%
@@ -24,7 +27,7 @@ get_grand_final <- function(season) {
 								       data.frame()
 	
 	## Convert table to single row	
-	grand_final_as_row <- cbind(season, grand_final_table[1,], grand_final_table[2,]) 
+	grand_final_as_row <<- cbind(season, grand_final_table[1,], grand_final_table[2,]) 
 
 	
 	## Rename variables
@@ -35,15 +38,17 @@ get_grand_final <- function(season) {
 													       "result")
 	
 	## Deprecated current
-	alternate_names <- c("Footscray","Kangaroos")
-	current_names <- c("Western Bulldogs","North Melbourne")
+	alternate_names <- c("Footscray","Kangaroos","South Melbourne", "Fitzroy")
+	current_names <- c("Western Bulldogs","North Melbourne","Sydney","Brisbane Lions")
 	
-	## Clean data into separate variables
 	
 	## Create a list of AFL 2017 preliminary finalists
 	preliminary_finalists_2017 <- c("Adelaide", "Richmond", "Geelong", "Greater Western Sydney")
 	
-	
+	## Create a list of all teams
+	all_teams <- c("Adelaide", "Brisbane Lions", "Carlton", "Collingwood","Essendon","Fremantle","Geelong", 
+							"Gold Coast Suns","Greater Western Sydney","Hawthorn","Melbourne","North Melbourne",
+							"Port Adelaide","Richmond","Sydney","St Kilda","Western Bulldogs","West Coast")
 	
 	grand_final_as_row <- grand_final_as_row %>%
 		                    mutate(team_home = factor(mgsub(team_home, alternate_names,current_names), levels=all_teams),
@@ -67,7 +72,7 @@ get_grand_final <- function(season) {
 }
 
 ## Define list of seasons we want to collect from AFL Tables
-seasons <- c(1946:2016)
+seasons <- c(1901:2016)
 
 
 ## Create data frame of grand finals for seasons in list
