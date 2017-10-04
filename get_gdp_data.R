@@ -4,15 +4,10 @@ library(dplyr)
 library(openxlsx)
 library(readxl)
 
-## Get real GDP growth data from quandl.com
-## https://www.quandl.com/data/AUSBS/5204002_EXPENDITURE_ON_GDP_A2420896J
-##quandl_gdp_df <- Quandl("AUSBS/5204002_EXPENDITURE_ON_GDP_A2420896J") %
-##	            dplyr::rename(. , gdp_date = Date, gdp_growth = Value) %>% ## give the variables meaningful names
-##	            mutate(season=year(gdp_date)-1) ## create a variable to join with grand final data.
 
 ## Get national accounts data from ABS
 url <- "http://www.abs.gov.au/ausstats/meisubs.NSF/log?openagent&5206001_key_aggregates.zip&5206.0&Time%20Series%20Spreadsheet&24FF946FB10A10CDCA258192001DAC4B&0&Jun%202017&06.09.2017&Latest"
-download.file(url = url, destfile = "./afl_economic_stimulus/abs_local.zip")
+download.file(url = url, destfile = "./afl_economic_stimulus/abs_local.zip", mode="wb")
 abs_xls <- unzip("./afl_economic_stimulus/abs_local.zip", exdir="./afl_economic_stimulus/")
 
 ## Create data frame from abs_xls
