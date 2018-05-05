@@ -1,12 +1,13 @@
 ## load libraries
-library(Quandl)
 library(dplyr)
 library(openxlsx)
 library(readxl)
 
-
 ## Get national accounts data from ABS
-url <- "http://www.abs.gov.au/ausstats/meisubs.NSF/log?openagent&5206001_key_aggregates.zip&5206.0&Time%20Series%20Spreadsheet&24FF946FB10A10CDCA258192001DAC4B&0&Jun%202017&06.09.2017&Latest"
+url <- file.path("http://www.abs.gov.au/ausstats/",
+                 "meisubs.NSF/log?openagent&5206001_key_aggregates.zip&5206.0&Time%20Series%20",
+                 "Spreadsheet&24FF946FB10A10CDCA258192001DAC4B&0&Jun%202017&06.09.2017&Latest")
+
 download.file(url = url, destfile = "./afl_economic_stimulus/abs_local.zip", mode="wb")
 abs_xls <- unzip("./afl_economic_stimulus/abs_local.zip", exdir="./afl_economic_stimulus/")
 
